@@ -4,24 +4,27 @@ import Menu from "./Menu";
 import NewsGrid from "./NewsGrid";
 import Navbar from "./Navbar";
 import Filter from "./Filter";
-import { data } from "autoprefixer";
 import Loading from "./Loading";
 import Footer from "./Footer";
-// import PropTypes from "prop-types";
+// News component fetches and displays news articles
 const News = () => {
-  const [item, setitem] = useState([]);
-  const [Active, setActive] = useState(1);
-  const [category, setCategory] = useState("general");
-  const [Language, setLanguage] = useState("en");
-  const [country, setcountry] = useState("us");
-  const [loading, setLoading] = useState();
-  const [pageSize, setpageSize] = useState(20);
-  const [totalResults, settotalResults] = useState(0);
-  const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState("publishedAt");
+  const [item, setitem] = useState([]); // Holds fetched news articles
+  const [Active, setActive] = useState(1);// Active menu item
+  const [category, setCategory] = useState("general"); // News category
+  const [Language, setLanguage] = useState("en");//Language of news
+  const [country, setcountry] = useState("us");// Country of news
+  const [loading, setLoading] = useState();// Loading state
+  const [pageSize, setpageSize] = useState(20);// Number of news articles per page
+  const [totalResults, settotalResults] = useState(0);// Total number of fetched news articles
+  const [query, setQuery] = useState("");// Search query
+  const [sortBy, setSortBy] = useState("publishedAt");// Sort news articles by
+  
+
+   // Fetch news articles
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/top-headlines?country=${country}&sortBy=${sortBy}&q=${query}&pageSize=${pageSize}&language=${Language}&category=${category}&apiKey=${process.env.NEXT_PUBLIC_API_BASE_KEY}`
@@ -29,9 +32,9 @@ const News = () => {
         if (response.ok) {
           const data = await response.json();
           settotalResults(data.totalResults);
-          console.log("Total Results", data.totalResults);
+       
           setitem(data.articles);
-          console.log(item);
+        
         } else {
           console.error("Response was not ok", response);
         }
@@ -44,6 +47,7 @@ const News = () => {
     fetchData();
   }, [category, Language, country, pageSize, query, sortBy]);
 
+   // Handle infinite scrolling
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop + 1 >=
@@ -54,6 +58,7 @@ const News = () => {
     }
   };
 
+   // Add and remove scroll event listener
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -62,10 +67,8 @@ const News = () => {
     };
   }, [item.length, totalResults]);
 
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
 
+ // Render components
   return (
     <div className={`pt-24 `}>
       <Navbar

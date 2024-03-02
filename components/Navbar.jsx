@@ -7,31 +7,38 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { links } from "./data";
+
+// Navbar component handles navigation and search functionality
 const Navbar = ({ active, setActive, setCategory, setQuery }) => {
   const [show, setshow] = useState(false);
+
+  // Toggle show state
   const handleClick = () => {
     setshow(!show);
   };
 
+  // Set active link and category
   function onClick(id, value) {
     setActive(id);
     setCategory(value);
   }
 
   const [searchterm, setSearchTerm] = useState("");
+  // Debounce search input to limit API calls
   const debouncedSearchTerm = debounce(setQuery, 500);
   const searchInput = (e) => {
     const input = e.target.value;
     setSearchTerm(input);
     debouncedSearchTerm(input);
   };
-
+  // Cancel debounced search term on component unmount
   useEffect(() => {
     return () => {
       debouncedSearchTerm.cancel();
     };
   });
 
+  // Render Navbar
   return (
     <div
       className={` z-50 fixed top-0 left-0 w-[100vw] px-2 sm:px-5 md:px-10 bg-gray-700 py-5 bg-transparent bg-opacity-55 text-white flex justify-between ${
@@ -42,6 +49,7 @@ const Navbar = ({ active, setActive, setCategory, setQuery }) => {
     >
       <div> Your NewsPaper</div>
       <div className=" gap-10 flex">
+        {/* search option */}
         <div className="relative">
           <button
             type="submit"
@@ -61,7 +69,7 @@ const Navbar = ({ active, setActive, setCategory, setQuery }) => {
             />
           </form>
         </div>
-
+        {/* only visible for small screen */}
         <div className=" block md:hidden">
           <IoIosMenu onClick={handleClick} size={30} color="white" />
 

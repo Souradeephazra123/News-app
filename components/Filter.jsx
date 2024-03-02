@@ -1,29 +1,39 @@
 import React, { useState } from "react";
 import { lang, countries, sortby } from "./data";
+
+// Filter component allows the user to filter news articles by language, country, and sort order
 const Filter = ({ setLanguage, setcountry, setSortBy }) => {
+  // State for the selected language and country
   const [language, setlanguage] = useState("en");
   const [country, setCountry] = useState("us");
+
+  // Handler for changing the language
   const handleChange = (e) => {
     const clicked = e.target.value;
     setLanguage(clicked);
     setlanguage(clicked);
   };
 
+  // Handler for changing the country
   const handleChangeCountry = (e) => {
     const clicked = e.target.value;
     setCountry(clicked);
     setcountry(clicked);
   };
+
+  // Handler for changing the sort order
   const handleSort = (e) => {
     const clicked = e.target.value;
     setSortBy(clicked);
   };
 
   return (
+    // Filter form
     <div className=" flex flex-col gap-3 pb-5">
       <div>Filter Here : -</div>
       <div className="flex flex-col sm:flex-row gap-5">
         {" "}
+        {/* Language selection dropdown */}
         <select
           className=" bg-slate-400 text-black w-fit"
           id="language"
@@ -37,6 +47,7 @@ const Filter = ({ setLanguage, setcountry, setSortBy }) => {
             );
           })}
         </select>
+        {/* Country selection dropdown */}
         <select
           className=" bg-slate-400 text-black w-fit"
           id="country"
@@ -50,6 +61,7 @@ const Filter = ({ setLanguage, setcountry, setSortBy }) => {
             );
           })}
         </select>
+        {/* Sort order selection dropdown */}
         <select
           className=" bg-slate-400 text-black w-fit"
           id="sort"
